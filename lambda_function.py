@@ -9,15 +9,23 @@ conn_params = utilities.get_parameters([location])
 conn = psycopg2.connect(host=conn_params['host'], database=conn_params['database'],
                         user=conn_params['username'], password=conn_params['password'])
 
+# Crear el logger
+logger = utilities.get_logger(os.environ.get('LOG_LEVEL', 'DEBUG'))
+
 
 def lambda_handler(event, context):
+    logger.debug(f"Input: {event}")
     try:
         with conn.cursor() as cur:
+            # usar SPs por seguridad
             cur.execute(f'SELECT * FROM "Employee" where id =\'{event["id"]}\'')
             results = cur.fetchall()
             cur.close()
             # conexion.close()   ## Por qué no la cierro?
     except (Exception, psycopg2.DatabaseError) as error:
+        # Escribir la verdadera causa del error en CloudWatch
+        logger.error(f'Error en public.get_pools_search: {error}')
+        # Stack dump
         traceback.print_exc()
         #  Realizamos rollback en caso de que el query  falle, para poder seguir haciendo querys con la conexion
         conn.rollback()

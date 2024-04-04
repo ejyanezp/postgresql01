@@ -1,6 +1,7 @@
 import boto3
 import json
 import os
+import logging
 
 
 # Obtener parametros desde el Parameter Store del Systems Manager
@@ -36,3 +37,31 @@ def get_parameters(parameter_name_list):
             global_config = param_json
     conn_props = {**global_config, **conn_props}
     return conn_props
+
+
+log_levels = {
+    'DEBUG': logging.DEBUG,
+    'INFO':  logging.INFO,
+    'WARN':  logging.WARN,
+    'ERROR': logging.ERROR,
+    'FATAL': logging.FATAL
+}
+
+
+def get_log_level(log_level_name: str) -> int:
+    if log_level_name is None:
+        return logging.INFO
+    if log_level_name in log_levels:
+        return log_levels[log_level_name]
+    else:
+        return logging.INFO
+
+
+def get_logger(log_level_name):
+    log_level = get_log_level(log_level_name)
+    # Esta configuración de "basicConfig" no tiene efecto en AWS ??!!??
+    logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
+    logger = logging.getLogger()
+    logger.setLevel(log_level)
+    return logger
