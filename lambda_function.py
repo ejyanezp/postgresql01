@@ -18,7 +18,7 @@ def lambda_handler(event, context):
     try:
         with conn.cursor() as cur:
             # usar SPs por seguridad
-            cur.execute(f'SELECT * FROM "Employee" where id =\'{event["id"]}\'')
+            cur.execute(f'SELECT * FROM public.employee where id =\'{event["id"]}\'')
             results = cur.fetchall()
             cur.close()
             # conexion.close()   ## Por qué no la cierro?

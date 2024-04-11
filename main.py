@@ -8,7 +8,7 @@ class Context:
 ctxt = Context()
 # Contrato de entrada
 event = {
-    'id': '50fe515a-409e-4602-afb6-4d3aabc48040'
+    "id": "7e7ac567-29dd-4888-9371-0db94e37b297"
 }
 
 result = lambda_function.lambda_handler(event, ctxt)
