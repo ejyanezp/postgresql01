@@ -81,11 +81,11 @@ python/
 ```
 * Comprimir la carpeta ```python```:
 ```commandline
-zip -r -y postgresql_layer.zip python/
+zip -r -y postgresql_layer_3_10.zip python/
 ```
-* Copiar el archivo ```postgresql_layer.zip``` a un bucket ```ccb-lambda-layers``` en AWS S3.
+* Copiar el archivo ```postgresql_layer_3_10.zip``` a un bucket ```ccb-lambda-layers``` en AWS S3.
 ```commandline
-aws s3 [profile opcional] cp postgresql_layer.zip s3://ccb-lambda-layers/postgresql_layer.zip --region us-east-1
+aws s3 [profile opcional] cp postgresql_layer_3_10.zip s3://ccb-lambda-layers/postgresql_layer.zip --region us-east-1
 ```
 * Crear la lambda layer en la consola web de Lambda. Prestar mucha atención al runtime de la lambda layer, debe coincidir con el de la lambda function.
 * Añadir la lambda layer a la lambda function.
